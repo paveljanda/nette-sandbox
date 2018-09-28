@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Authentication;
 
 use App\Authentication\Credentials;
-use Dibi\Connection;
-use Dibi\Row;
+use App\User\Exception\UserNotFoundException;
+use App\User\UserDataProvider;
 use Nette\Security\AuthenticationException;
 use Nette\Security\Identity;
 use Nette\Security\Passwords;
@@ -14,24 +14,15 @@ use Nette\Security\Passwords;
 final class UserAuthenticator
 {
 
-	const
-		TABLE_NAME = 'users',
-		COLUMN_ID = 'id',
-		COLUMN_NAME = 'username',
-		COLUMN_PASSWORD_HASH = 'password',
-		COLUMN_EMAIL = 'email',
-		COLUMN_ROLE = 'role';
-
-
 	/**
-	 * @var Connection
+	 * @var UserDataProvider
 	 */
-	private $dibiConnection;
+	private $userDataProvider;
 
 
-	public function __construct(Connection $dibiConnection)
+	public function __construct(UserDataProvider $userDataProvider)
 	{
-		$this->dibiConnection = $dibiConnection;
+		$this->userDataProvider = $userDataProvider;
 	}
 
 
@@ -40,26 +31,28 @@ final class UserAuthenticator
 	 */
 	public function authenticate(Credentials $credentials): Identity
 	{
-		$row = $this->dibiConnection->select('*')
-			->from(self::TABLE_NAME)
-			->where('%n = ?', self::COLUMN_NAME, $credentials->getUsername())
-			->fetch();
-
-		if (!$row instanceof Row) {
+		try {
+			$userData = $this->userDataProvider->getUserDataByUsername($credentials->getUsername());
+		} catch (UserNotFoundException $e) {
 			throw new AuthenticationException('The username is incorrect.', self::IDENTITY_NOT_FOUND);
+		}
 
-		} elseif (!Passwords::verify($credentials->getPassword(), $row[self::COLUMN_PASSWORD_HASH])) {
+		if (!Passwords::verify($credentials->getPassword(), $userData->getPasswordHash())) {
 			throw new AuthenticationException('The password is incorrect.', self::INVALID_CREDENTIAL);
 
-		} elseif (Passwords::needsRehash($row[self::COLUMN_PASSWORD_HASH])) {
+		} elseif (Passwords::needsRehash($userData->getPasswordHash())) {
 			$this->dibiConnection->update(
 				self::TABLE_NAME,
 				[self::COLUMN_PASSWORD_HASH => Passwords::hash($credentials->getPassword())]
 			)->execute();
 		}
 
-		unset($row[self::COLUMN_PASSWORD_HASH]);
-
-		return new Identity($row[self::COLUMN_ID], $row[self::COLUMN_ROLE], $row);
+		return new Identity(
+			$userData->getUuid()->toString(),
+			[],
+			[
+				'username' => $userData->getCredentials()->getUsername()
+			]
+		);
 	}
 }
