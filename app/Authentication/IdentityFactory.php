@@ -17,7 +17,7 @@ final class IdentityFactory
 			$userData->getUuid()->toString(),
 			[],
 			[
-				'username' => $userData->getCredentials()->getUsername()
+				'username' => $userData->getUsername()
 			]
 		);
 	}

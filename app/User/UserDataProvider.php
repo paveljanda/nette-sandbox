@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\User;
 
-use App\Authentication\Credentials;
 use App\User\Exception\UserNotFoundException;
 use Dibi\Connection;
 use Dibi\Row;
@@ -47,10 +46,7 @@ final class UserDataProvider
 
 		return new UserData(
 			Uuid::fromBytes($row['uuid']),
-			new Credentials(
-				$row['username'],
-				$row['password']
-			),
+			$row['username'],
 			$row['password_hash']
 		);
 	}

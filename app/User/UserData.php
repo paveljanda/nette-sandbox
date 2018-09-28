@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\User;
 
-use App\Authentication\Credentials;
 use Ramsey\Uuid\UuidInterface;
 
 final class UserData
@@ -16,9 +15,9 @@ final class UserData
 	private $uuid;
 
 	/**
-	 * @var Credentials
+	 * @var string
 	 */
-	private $credentials;
+	private $username;
 
 	/**
 	 * @var string
@@ -28,11 +27,11 @@ final class UserData
 
 	public function __construct(
 		UuidInterface $uuid,
-		Credentials $credentials,
+		string $username,
 		string $passwordHash
 	) {
 		$this->uuid = $uuid;
-		$this->credentials = $credentials;
+		$this->username = $username;
 		$this->passwordHash = $passwordHash;
 	}
 
@@ -43,9 +42,9 @@ final class UserData
 	}
 
 
-	public function getCredentials(): Credentials
+	public function getUsername(): string
 	{
-		return $this->credentials;
+		return $this->username;
 	}
 
 
