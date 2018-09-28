@@ -11,8 +11,6 @@ use Nette\Security\User;
 
 final class SignInFormFactory
 {
-	use Nette\SmartObject;
-
 	/** @var FormFactory */
 	private $factory;
 

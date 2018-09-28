@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace App\Model;
 
 use App\Model\DuplicateNameException;
+use App\Model\Exception\DuplicateNameException;
 use Nette\Database\Context;
+use Nette\Database\UniqueConstraintViolationException;
 use Nette\Security\AuthenticationException;
 use Nette\Security\IAuthenticator;
 use Nette\Security\Identity;
@@ -75,14 +77,8 @@ final class UserManager implements IAuthenticator
 				self::COLUMN_PASSWORD_HASH => Passwords::hash($password),
 				self::COLUMN_EMAIL => $email,
 			]);
-		} catch (Nette\Database\UniqueConstraintViolationException $e) {
+		} catch (UniqueConstraintViolationException $e) {
 			throw new DuplicateNameException;
 		}
 	}
-}
-
-
-
-class DuplicateNameException extends \Exception
-{
 }
