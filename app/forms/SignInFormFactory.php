@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Forms;
 
 use Nette;
@@ -25,10 +27,7 @@ final class SignInFormFactory
 	}
 
 
-	/**
-	 * @return Form
-	 */
-	public function create(callable $onSuccess)
+	public function create(callable $onSuccess): Form
 	{
 		$form = $this->factory->create();
 		$form->addText('username', 'Username:')
@@ -41,7 +40,7 @@ final class SignInFormFactory
 
 		$form->addSubmit('send', 'Sign in');
 
-		$form->onSuccess[] = function (Form $form, $values) use ($onSuccess) {
+		$form->onSuccess[] = function(Form $form, $values) use ($onSuccess): void {
 			try {
 				$this->user->setExpiration($values->remember ? '14 days' : '20 minutes');
 				$this->user->login($values->username, $values->password);

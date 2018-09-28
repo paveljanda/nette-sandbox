@@ -3,13 +3,13 @@
 namespace App\Forms;
 
 use App\Model;
+use App\Model\UserManager;
 use Nette;
 use Nette\Application\UI\Form;
 
 
 final class SignUpFormFactory
 {
-	use Nette\SmartObject;
 
 	const PASSWORD_MIN_LENGTH = 7;
 
@@ -20,17 +20,14 @@ final class SignUpFormFactory
 	private $userManager;
 
 
-	public function __construct(FormFactory $factory, Model\UserManager $userManager)
+	public function __construct(FormFactory $factory, UserManager $userManager)
 	{
 		$this->factory = $factory;
 		$this->userManager = $userManager;
 	}
 
 
-	/**
-	 * @return Form
-	 */
-	public function create(callable $onSuccess)
+	public function create(callable $onSuccess): Form
 	{
 		$form = $this->factory->create();
 		$form->addText('username', 'Pick a username:')
@@ -46,7 +43,7 @@ final class SignUpFormFactory
 
 		$form->addSubmit('send', 'Sign up');
 
-		$form->onSuccess[] = function (Form $form, $values) use ($onSuccess) {
+		$form->onSuccess[] = function(Form $form, $values) use ($onSuccess): void {
 			try {
 				$this->userManager->add($values->username, $values->email, $values->password);
 			} catch (Model\DuplicateNameException $e) {
