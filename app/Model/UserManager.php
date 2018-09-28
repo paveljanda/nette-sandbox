@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Model;
 
-use App\Model\DuplicateNameException;
 use App\Model\Exception\DuplicateNameException;
-use Nette\Database\Context;
+use Dibi\Connection;
+use Dibi\Row;
 use Nette\Database\UniqueConstraintViolationException;
 use Nette\Security\AuthenticationException;
 use Nette\Security\IAuthenticator;
@@ -26,14 +26,14 @@ final class UserManager implements IAuthenticator
 
 
 	/**
-	 * @var Context
+	 * @var Connection
 	 */
-	private $database;
+	private $dibiConnection;
 
 
-	public function __construct(Context $database)
+	public function __construct(Connection $dibiConnection)
 	{
-		$this->database = $database;
+		$this->dibiConnection = $dibiConnection;
 	}
 
 
@@ -44,25 +44,27 @@ final class UserManager implements IAuthenticator
 	{
 		list($username, $password) = $credentials;
 
-		$row = $this->database->table(self::TABLE_NAME)
-			->where(self::COLUMN_NAME, $username)
+		$row = $this->dibiConnection->select('*')
+			->from(self::TABLE_NAME)
+			->where('%n = ?', self::COLUMN_NAME, $username)
 			->fetch();
 
-		if (!$row) {
+		if (!$row instanceof Row) {
 			throw new AuthenticationException('The username is incorrect.', self::IDENTITY_NOT_FOUND);
 
 		} elseif (!Passwords::verify($password, $row[self::COLUMN_PASSWORD_HASH])) {
 			throw new AuthenticationException('The password is incorrect.', self::INVALID_CREDENTIAL);
 
 		} elseif (Passwords::needsRehash($row[self::COLUMN_PASSWORD_HASH])) {
-			$row->update([
-				self::COLUMN_PASSWORD_HASH => Passwords::hash($password),
-			]);
+			$this->dibiConnection->update(
+				self::TABLE_NAME,
+				[self::COLUMN_PASSWORD_HASH => Passwords::hash($password)]
+			)->execute();
 		}
 
-		$arr = $row->toArray();
-		unset($arr[self::COLUMN_PASSWORD_HASH]);
-		return new Identity($row[self::COLUMN_ID], $row[self::COLUMN_ROLE], $arr);
+		unset($row[self::COLUMN_PASSWORD_HASH]);
+
+		return new Identity($row[self::COLUMN_ID], $row[self::COLUMN_ROLE], $row);
 	}
 
 

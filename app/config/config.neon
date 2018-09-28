@@ -11,16 +11,20 @@ application:
 		*: App\*Module\Presenters\*Presenter
 
 
+extensions:
+	dibi: Dibi\Bridges\Nette\DibiExtension22
+
+
 session:
 	expiration: 14 days
 
 
-database:
-	dsn: 'mysql:host=127.0.0.1;dbname=test'
-	user:
+dibi:
+	driver: mysqli
+	host: 127.0.0.1
+	username: root
 	password:
-	options:
-		lazy: yes
+	database: super-foo
 
 
 services:
@@ -28,4 +32,4 @@ services:
 	- App\Forms\FormFactory
 	- App\Forms\SignInFormFactory
 	- App\Forms\SignUpFormFactory
-	router: App\RouterFactory::createRouter
+	router: App\Router\RouterFactory::createRouter

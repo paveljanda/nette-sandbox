@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5ab562fbddba2eba461bfdbe24d47d3e",
+    "content-hash": "2befe32cf9949390921a813ba3ccd6ec",
     "packages": [
         {
             "name": "dg/adminer-custom",
@@ -34,6 +34,70 @@
                 "sqlite"
             ],
             "time": "2018-06-29T10:30:14+00:00"
+        },
+        {
+            "name": "dibi/dibi",
+            "version": "v4.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/dg/dibi.git",
+                "reference": "811974139eb2b8f16fd0aa6ff104de1d416b8b35"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/dg/dibi/zipball/811974139eb2b8f16fd0aa6ff104de1d416b8b35",
+                "reference": "811974139eb2b8f16fd0aa6ff104de1d416b8b35",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.1"
+            },
+            "replace": {
+                "dg/dibi": "*"
+            },
+            "require-dev": {
+                "nette/tester": "~2.0",
+                "tracy/tracy": "~2.2"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "4.0-dev"
+                }
+            },
+            "autoload": {
+                "classmap": [
+                    "src/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause",
+                "GPL-2.0",
+                "GPL-3.0"
+            ],
+            "authors": [
+                {
+                    "name": "David Grudl",
+                    "homepage": "https://davidgrudl.com"
+                }
+            ],
+            "description": "Dibi is Database Abstraction Library for PHP",
+            "homepage": "https://dibiphp.com",
+            "keywords": [
+                "access",
+                "database",
+                "dbal",
+                "mssql",
+                "mysql",
+                "odbc",
+                "oracle",
+                "pdo",
+                "postgresql",
+                "sqlite",
+                "sqlsrv"
+            ],
+            "time": "2018-09-17T11:50:54+00:00"
         },
         {
             "name": "latte/latte",
@@ -399,78 +463,6 @@
                 "nette"
             ],
             "time": "2018-03-20T16:32:50+00:00"
-        },
-        {
-            "name": "nette/database",
-            "version": "v2.4.6",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/nette/database.git",
-                "reference": "b094b7ae07daa7d4c188168f78b15eb2f4f27212"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/nette/database/zipball/b094b7ae07daa7d4c188168f78b15eb2f4f27212",
-                "reference": "b094b7ae07daa7d4c188168f78b15eb2f4f27212",
-                "shasum": ""
-            },
-            "require": {
-                "ext-pdo": "*",
-                "nette/caching": "^2.2",
-                "nette/utils": "^2.4",
-                "php": ">=5.6.0"
-            },
-            "conflict": {
-                "nette/nette": "<2.2"
-            },
-            "require-dev": {
-                "mockery/mockery": "^1.0.0",
-                "nette/di": "^2.4 || ~3.0.0",
-                "nette/tester": "^2.0",
-                "tracy/tracy": "^2.4"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.4-dev"
-                }
-            },
-            "autoload": {
-                "classmap": [
-                    "src/"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause",
-                "GPL-2.0",
-                "GPL-3.0"
-            ],
-            "authors": [
-                {
-                    "name": "David Grudl",
-                    "homepage": "https://davidgrudl.com"
-                },
-                {
-                    "name": "Nette Community",
-                    "homepage": "https://nette.org/contributors"
-                }
-            ],
-            "description": "💾 Nette Database: layer with a familiar PDO-like API but much more powerful. Building queries, advanced joins, drivers for MySQL, PostgreSQL, SQLite, MS SQL Server and Oracle.",
-            "homepage": "https://nette.org",
-            "keywords": [
-                "database",
-                "mssql",
-                "mysql",
-                "nette",
-                "notorm",
-                "oracle",
-                "pdo",
-                "postgresql",
-                "queries",
-                "sqlite"
-            ],
-            "time": "2018-06-01T15:50:27+00:00"
         },
         {
             "name": "nette/di",
@@ -874,21 +866,21 @@
         },
         {
             "name": "nette/php-generator",
-            "version": "v2.6.4",
+            "version": "v3.0.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nette/php-generator.git",
-                "reference": "c1f6b2163c5471c4d94cd94b93362f12bceef183"
+                "reference": "ea90209c2e8a7cd087b2742ca553c047a8df5eff"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nette/php-generator/zipball/c1f6b2163c5471c4d94cd94b93362f12bceef183",
-                "reference": "c1f6b2163c5471c4d94cd94b93362f12bceef183",
+                "url": "https://api.github.com/repos/nette/php-generator/zipball/ea90209c2e8a7cd087b2742ca553c047a8df5eff",
+                "reference": "ea90209c2e8a7cd087b2742ca553c047a8df5eff",
                 "shasum": ""
             },
             "require": {
                 "nette/utils": "^2.4.2 || ~3.0.0",
-                "php": ">=5.6.0"
+                "php": ">=7.0"
             },
             "conflict": {
                 "nette/nette": "<2.2"
@@ -900,7 +892,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.6-dev"
+                    "dev-master": "3.0-dev"
                 }
             },
             "autoload": {
@@ -924,7 +916,7 @@
                     "homepage": "https://nette.org/contributors"
                 }
             ],
-            "description": "🐘 Nette PHP Generator: generates neat PHP code for you. Supports new PHP 7.1 features.",
+            "description": "🐘 Nette PHP Generator: generates neat PHP code for you. Supports new PHP 7.2 features.",
             "homepage": "https://nette.org",
             "keywords": [
                 "code",
@@ -932,7 +924,7 @@
                 "php",
                 "scaffolding"
             ],
-            "time": "2018-04-26T16:47:39+00:00"
+            "time": "2018-08-09T14:32:27+00:00"
         },
         {
             "name": "nette/reflection",
@@ -1409,8 +1401,5 @@
     "platform": {
         "php": ">=5.6.0"
     },
-    "platform-dev": [],
-    "platform-overrides": {
-        "php": "5.6"
-    }
+    "platform-dev": []
 }

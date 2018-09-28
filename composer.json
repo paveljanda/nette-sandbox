@@ -15,14 +15,16 @@
 		}
 	],
 	"autoload": {
-		"App\\": "app/"
+		"psr-4": {
+			"App\\": ["app/"]
+		}
 	},
 	"require": {
-		"php": ">=5.6.0",
+		"php": ">=7.2",
 		"nette/application": "^2.4.4",
 		"nette/bootstrap": "^2.4.3",
 		"nette/caching": "^2.5",
-		"nette/database": "^2.4",
+		"dibi/dibi": "^4.0",
 		"nette/di": "^2.4",
 		"nette/finder": "^2.4",
 		"nette/forms": "^2.4",
@@ -39,10 +41,5 @@
 	"require-dev": {
 		"nette/tester": "^2.0"
 	},
-	"minimum-stability": "stable",
-	"config": {
-		"platform": {
-			"php": "5.6"
-		}
-	}
+	"minimum-stability": "stable"
 }
