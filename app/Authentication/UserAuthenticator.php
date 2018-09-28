@@ -6,6 +6,7 @@ namespace App\Authentication;
 
 use App\Authentication\Credentials;
 use App\User\Exception\UserNotFoundException;
+use App\User\UserData;
 use App\User\UserDataProvider;
 use Nette\Security\AuthenticationException;
 use Nette\Security\Identity;
@@ -29,7 +30,7 @@ final class UserAuthenticator
 	/**
 	 * @throws AuthenticationException
 	 */
-	public function authenticate(Credentials $credentials): Identity
+	public function authenticate(Credentials $credentials): UserData
 	{
 		try {
 			$userData = $this->userDataProvider->getUserDataByUsername($credentials->getUsername());
@@ -41,18 +42,15 @@ final class UserAuthenticator
 			throw new AuthenticationException('The password is incorrect.', self::INVALID_CREDENTIAL);
 
 		} elseif (Passwords::needsRehash($userData->getPasswordHash())) {
-			$this->dibiConnection->update(
+			/**
+			 * @todo Implements and use some PasswordRefresher
+			 */
+			/*$this->dibiConnection->update(
 				self::TABLE_NAME,
 				[self::COLUMN_PASSWORD_HASH => Passwords::hash($credentials->getPassword())]
-			)->execute();
+			)->execute();*/
 		}
 
-		return new Identity(
-			$userData->getUuid()->toString(),
-			[],
-			[
-				'username' => $userData->getCredentials()->getUsername()
-			]
-		);
+		return $userData;
 	}
 }

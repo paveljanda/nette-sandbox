@@ -6,6 +6,7 @@ namespace App\Forms;
 
 use App\Authentication\Credentials;
 use App\Authentication\UserAuthenticator;
+use App\User\UserDataProvider;
 use Nette;
 use Nette\Application\UI\Form;
 use Nette\Security\AuthenticationException;
@@ -25,15 +26,22 @@ final class SignInFormFactory
 	 */
 	private $userAuthenticator;
 
+	/**
+	 * @var UserDataProvider
+	 */
+	private $userDataProvider;
+
 
 	public function __construct(
 		FormFactory $factory,
 		User $user,
-		UserAuthenticator $userAuthenticator
+		UserAuthenticator $userAuthenticator,
+		UserDataProvider $userDataProvider
 	) {
 		$this->factory = $factory;
 		$this->user = $user;
 		$this->userAuthenticator = $userAuthenticator;
+		$this->userDataProvider = $userDataProvider;
 	}
 
 
@@ -52,13 +60,13 @@ final class SignInFormFactory
 
 		$form->onSuccess[] = function(Form $form, $values) use ($onSuccess): void {
 			try {
-				$identity = $this->userAuthenticator->authenticate(new Credentials(
+				$userData = $this->userAuthenticator->authenticate(new Credentials(
 					$values->username,
 					$values->password
 				));
 
 				$this->user->setExpiration($values->remember ? '14 days' : '20 minutes');
-				$this->user->login($identity);
+				$this->user->login($this->userDataProvider->createFromUserData($userData));
 			} catch (AuthenticationException $e) {
 				$form->addError('The username or password you entered is incorrect.');
 				return;
