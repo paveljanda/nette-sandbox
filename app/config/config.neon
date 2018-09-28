@@ -33,3 +33,4 @@ services:
 	- App\Forms\SignInFormFactory
 	- App\Forms\SignUpFormFactory
 	router: App\Router\RouterFactory::createRouter
+	- App\Authentication\UserAuthenticator
