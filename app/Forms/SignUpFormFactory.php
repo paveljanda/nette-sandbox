@@ -2,10 +2,12 @@
 
 namespace App\Forms;
 
-use App\Model;
-use App\Model\UserManager;
-use Nette;
+use App\User\Exception\DuplicateNameException;
+use App\User\UserData;
+use App\User\UserDataStorage;
 use Nette\Application\UI\Form;
+use Nette\Security\Passwords;
+use Ramsey\Uuid\Uuid;
 
 
 final class SignUpFormFactory
@@ -16,14 +18,14 @@ final class SignUpFormFactory
 	/** @var FormFactory */
 	private $factory;
 
-	/** @var Model\UserManager */
-	private $userManager;
+	/** @var UserDataStorage */
+	private $userDataStorage;
 
 
-	public function __construct(FormFactory $factory, UserManager $userManager)
+	public function __construct(FormFactory $factory, UserDataStorage $userDataStorage)
 	{
 		$this->factory = $factory;
-		$this->userManager = $userManager;
+		$this->userDataStorage = $userDataStorage;
 	}
 
 
@@ -45,8 +47,12 @@ final class SignUpFormFactory
 
 		$form->onSuccess[] = function(Form $form, $values) use ($onSuccess): void {
 			try {
-				$this->userManager->add($values->username, $values->email, $values->password);
-			} catch (Model\DuplicateNameException $e) {
+				$this->userDataStorage->store(new UserData(
+					Uuid::uuid4(),
+					$values->username,
+					Passwords::hash($values->password)
+				));
+			} catch (DuplicateNameException $e) {
 				$form['username']->addError('Username is already taken.');
 				return;
 			}

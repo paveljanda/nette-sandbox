@@ -28,7 +28,6 @@ dibi:
 
 
 services:
-	- App\Model\UserManager
 	- App\Forms\FormFactory
 	- App\Forms\SignInFormFactory
 	- App\Forms\SignUpFormFactory
@@ -36,3 +35,4 @@ services:
 	- App\Authentication\UserAuthenticator
 	- App\Authentication\IdentityFactory
 	- App\User\UserDataProvider
+	- App\User\UserDataStorage
