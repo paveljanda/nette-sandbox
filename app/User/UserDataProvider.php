@@ -9,7 +9,7 @@ use Dibi\Connection;
 use Dibi\Row;
 use Ramsey\Uuid\Uuid;
 
-final class UserDataProvider
+final class UserDataProvider implements IUserDataProvider
 {
 
 	/**
@@ -24,6 +24,9 @@ final class UserDataProvider
 	}
 
 
+	/**
+	 * @throws UserNotFoundException
+	 */
 	public function getUserDataByUsername(string $username): UserData
 	{
 		$row = $this->dibiConnection->select('*')

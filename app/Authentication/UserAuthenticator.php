@@ -7,7 +7,7 @@ namespace App\Authentication;
 use App\Authentication\Credentials;
 use App\User\Exception\UserNotFoundException;
 use App\User\UserData;
-use App\User\UserDataProvider;
+use App\User\IUserDataProvider;
 use Nette\Security\AuthenticationException;
 use Nette\Security\Identity;
 use Nette\Security\Passwords;
@@ -15,13 +15,16 @@ use Nette\Security\Passwords;
 final class UserAuthenticator
 {
 
+	public const IDENTITY_NOT_FOUND = 1;
+	public const INVALID_CREDENTIAL = 2;
+
 	/**
-	 * @var UserDataProvider
+	 * @var IUserDataProvider
 	 */
 	private $userDataProvider;
 
 
-	public function __construct(UserDataProvider $userDataProvider)
+	public function __construct(IUserDataProvider $userDataProvider)
 	{
 		$this->userDataProvider = $userDataProvider;
 	}

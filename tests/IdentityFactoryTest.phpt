@@ -25,7 +25,7 @@ class IdentityFactoryTest extends TestCase
 	}
 
 
-	public function testSomething(): void
+	public function testCreateFromUserDataSomething(): void
 	{
 		$uuid = Uuid::uuid4();
 
@@ -40,6 +40,5 @@ class IdentityFactoryTest extends TestCase
 		Assert::same(['username' => 'franta'], $identity->getData());
 	}
 }
-
 
 (new IdentityFactoryTest($container))->run();

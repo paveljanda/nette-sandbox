@@ -27,5 +27,4 @@ class ExampleTest extends TestCase
 	}
 }
 
-
 (new ExampleTest($container))->run();
