@@ -6,6 +6,7 @@ use App\User\Exception\DuplicateNameException;
 use App\User\UserData;
 use App\User\UserDataStorage;
 use Nette\Application\UI\Form;
+use Nette\Forms\Controls\BaseControl;
 use Nette\Security\Passwords;
 use Ramsey\Uuid\Uuid;
 
@@ -53,7 +54,12 @@ final class SignUpFormFactory
 					Passwords::hash($values->password)
 				));
 			} catch (DuplicateNameException $e) {
+				if (!$form['username'] instanceof BaseControl) {
+					throw new \UnexpectedValueException;
+				}
+
 				$form['username']->addError('Username is already taken.');
+
 				return;
 			}
 			$onSuccess();

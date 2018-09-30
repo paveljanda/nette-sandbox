@@ -34,7 +34,7 @@ final class UserDataProvider implements IUserDataProvider
 			->where('username = ?', $username)
 			->fetch();
 
-		return $this->createUserDataFromRow($row);
+		return $this->createUserDataFromRow($row instanceof Row ? $row : null);
 	}
 
 
