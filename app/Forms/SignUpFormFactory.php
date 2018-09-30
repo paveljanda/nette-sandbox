@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Forms;
 
 use App\User\Exception\DuplicateNameException;
@@ -10,16 +12,19 @@ use Nette\Forms\Controls\BaseControl;
 use Nette\Security\Passwords;
 use Ramsey\Uuid\Uuid;
 
-
 final class SignUpFormFactory
 {
 
-	const PASSWORD_MIN_LENGTH = 7;
+	private const PASSWORD_MIN_LENGTH = 7;
 
-	/** @var FormFactory */
+	/**
+	 * @var FormFactory
+	 */
 	private $factory;
 
-	/** @var UserDataStorage */
+	/**
+	 * @var UserDataStorage
+	 */
 	private $userDataStorage;
 
 
@@ -62,6 +67,7 @@ final class SignUpFormFactory
 
 				return;
 			}
+
 			$onSuccess();
 		};
 

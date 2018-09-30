@@ -7,7 +7,6 @@ namespace App\Authentication;
 use App\User\UserData;
 use Nette\Security\Identity;
 
-
 final class IdentityFactory
 {
 
@@ -17,7 +16,7 @@ final class IdentityFactory
 			$userData->getUuid()->toString(),
 			[],
 			[
-				'username' => $userData->getUsername()
+				'username' => $userData->getUsername(),
 			]
 		);
 	}

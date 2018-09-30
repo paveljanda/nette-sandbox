@@ -4,12 +4,10 @@ declare(strict_types=1);
 
 namespace App\Authentication;
 
-use App\Authentication\Credentials;
 use App\User\Exception\UserNotFoundException;
-use App\User\UserData;
 use App\User\IUserDataProvider;
+use App\User\UserData;
 use Nette\Security\AuthenticationException;
-use Nette\Security\Identity;
 use Nette\Security\Passwords;
 
 final class UserAuthenticator
@@ -43,7 +41,6 @@ final class UserAuthenticator
 
 		if (!Passwords::verify($credentials->getPassword(), $userData->getPasswordHash())) {
 			throw new AuthenticationException('The password is incorrect.', self::INVALID_CREDENTIAL);
-
 		} elseif (Passwords::needsRehash($userData->getPasswordHash())) {
 			/**
 			 * @todo Implements and use some PasswordRefresher

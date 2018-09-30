@@ -7,7 +7,6 @@ namespace App\User;
 use App\User\Exception\DuplicateNameException;
 use Dibi\Connection;
 use Dibi\UniqueConstraintViolationException;
-use Nette\Security\Passwords;
 
 final class UserDataStorage
 {

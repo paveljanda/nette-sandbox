@@ -10,33 +10,21 @@ use App\User\Exception\UserNotFoundException;
 use App\User\IUserDataProvider;
 use App\User\UserData;
 use Mockery;
-use Nette\DI\Container;
 use Nette\Security\AuthenticationException;
 use Nette\Security\Passwords;
 use Ramsey\Uuid\Uuid;
 use Tester\Assert;
 use Tester\TestCase;
 
-$container = require __DIR__ . '/bootstrap.php';
+require __DIR__ . '/bootstrap.php';
 
 class UserAuthenticatorTest extends TestCase
 {
 
 	/**
-	 * @var Container
-	 */
-	private $container;
-
-	/**
 	 * @var UserData
 	 */
 	private $userData;
-
-
-	public function __construct(Container $container)
-	{
-		$this->container = $container;
-	}
 
 
 	public function setUp(): void
@@ -95,4 +83,4 @@ class UserAuthenticatorTest extends TestCase
 	}
 }
 
-(new UserAuthenticatorTest($container))->run();
+(new UserAuthenticatorTest)->run();

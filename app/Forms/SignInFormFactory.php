@@ -7,18 +7,20 @@ namespace App\Forms;
 use App\Authentication\Credentials;
 use App\Authentication\IdentityFactory;
 use App\Authentication\UserAuthenticator;
-use Nette;
 use Nette\Application\UI\Form;
 use Nette\Security\AuthenticationException;
 use Nette\Security\User;
 
-
 final class SignInFormFactory
 {
-	/** @var FormFactory */
+	/**
+	 * @var FormFactory
+	 */
 	private $factory;
 
-	/** @var User */
+	/**
+	 * @var User
+	 */
 	private $user;
 
 	/**
@@ -69,8 +71,10 @@ final class SignInFormFactory
 				$this->user->login($this->identityFactory->createFromUserData($userData));
 			} catch (AuthenticationException $e) {
 				$form->addError('The username or password you entered is incorrect.');
+
 				return;
 			}
+
 			$onSuccess();
 		};
 

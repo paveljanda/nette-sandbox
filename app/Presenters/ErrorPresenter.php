@@ -4,13 +4,11 @@ declare(strict_types=1);
 
 namespace App\Presenters;
 
-use Nette;
 use Nette\Application\BadRequestException;
 use Nette\Application\Helpers;
 use Nette\Application\IPresenter;
 use Nette\Application\IResponse;
 use Nette\Application\Request;
-use Nette\Application\Responses;
 use Nette\Application\Responses\CallbackResponse;
 use Nette\Application\Responses\ForwardResponse;
 use Nette\Http;
@@ -19,7 +17,9 @@ use Tracy\ILogger;
 final class ErrorPresenter implements IPresenter
 {
 
-	/** @var ILogger */
+	/**
+	 * @var ILogger
+	 */
 	private $logger;
 
 
@@ -35,8 +35,9 @@ final class ErrorPresenter implements IPresenter
 
 		if ($e instanceof BadRequestException) {
 			// $this->logger->log("HTTP code {$e->getCode()}: {$e->getMessage()} in {$e->getFile()}:{$e->getLine()}", 'access');
-			list($module, , $sep) = Helpers::splitName($request->getPresenterName());
+			[$module, , $sep] = Helpers::splitName($request->getPresenterName());
 			$errorPresenter = $module . $sep . 'Error4xx';
+
 			return new ForwardResponse($request->setPresenterName($errorPresenter));
 		}
 
